@@ -26,11 +26,18 @@ jobs:
         pip install "cython<3.0.0" buildozer
 
     - name: Build with Buildozer
+      env:
+        ACCEPT_SDK_LICENSE: "yes"
       run: |
         if [ ! -f buildozer.spec ]; then
           buildozer init
           sed -i 's/requirements = python3,kivy/requirements = python3,pygame/g' buildozer.spec
+          sed -i 's/# android.accept_sdk_license = False/android.accept_sdk_license = True/g' buildozer.spec
         fi
+        # Раскомментируем принятие лицензий в конфиге, если он уже был
+        sed -i 's/android.accept_sdk_license = False/android.accept_sdk_license = True/g' buildozer.spec
+        
+        # Запуск сборки с передачей «y» в любой стем
         yes | buildozer -v android debug
 
     - name: Upload APK
