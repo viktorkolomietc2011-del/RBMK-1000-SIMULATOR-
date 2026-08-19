@@ -2,7 +2,7 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
@@ -10,40 +10,46 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
 
-      - name: Fast Apt Setup & Install Dependencies
-        run: |
-          sudo sed -i 's/azure.archive.ubuntu.com/archive.ubuntu.com/g' /etc/apt/sources.list
-          sudo apt-get update -o Acquire::Retries=3
-          sudo apt-get install -y --no-install-recommends \
-            build-essential \
-            ccache \
-            git \
-            libffi-dev \
-            libssl-dev \
-            python3-dev \
-            autoconf \
-            automake \
-            libtool \
-            pkg-config \
-            zlib1g-dev \
-            openjdk-17-jdk
-          pip install --upgrade buildozer cython
+    - name: Fast Apt Setup & Install Dependencies
+      run: |
+        sudo sed -i 's/azure.archive.ubuntu.com/archive.ubuntu.com/g' /etc/apt/sources.list
+        sudo apt-get update || true
+        sudo apt-get install -y --no-install-recommends \
+          git \
+          zip \
+          unzip \
+          openjdk-17-jdk \
+          autoconf \
+          automake \
+          libtool \
+          pkg-config \
+          zlib1g-dev \
+          libflake8-dev \
+          libssl-dev \
+          build-essential \
+          libffi-dev \
+          ccache
 
-      - name: Build with Buildozer
-        run: |
-          yes | buildozer android debug
+    - name: Install Buildozer & Cython
+      run: |
+        python -m pip install --upgrade pip
+        pip install "cython<3.0.0" buildozer
 
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: RBMK-Game-APK
-          path: bin/*.apk
-          
+    - name: Build with Buildozer
+      run: |
+        yes | buildozer -v android debug
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: RBMK-Game-APK
+        path: bin/*.apk
+        
