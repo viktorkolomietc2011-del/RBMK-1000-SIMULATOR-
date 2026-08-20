@@ -1,5 +1,4 @@
 [app]
-
 title = RBMK-1000
 package.name = rbmk
 package.domain = org.simulator
@@ -17,9 +16,9 @@ fullscreen = 1
 
 android.archs = arm64-v8a, armeabi-v7a
 android.allow_backup = True
-android.api = 31
+android.api = 34
 android.minapi = 21
-android.ndk = 25b
+android.ndk = 28c
 android.accept_sdk_license = True
 
 [buildozer]
