@@ -1,4 +1,5 @@
 [app]
+
 # Название и пакет
 title = RBMK-1000
 package.name = rbmk
@@ -8,14 +9,14 @@ package.domain = org.simulator
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,wav
 
-# Иконка приложения (точное имя твоего файла)
+# Иконка приложения
 icon.filename = Icon.png
 
-# Версия и требования (конфликт версий устранен)
+# Версия и требования (жестко фиксируем стабильный Python 3.11 для Android)
 version = 1.0
-requirements = python3,kivy
+requirements = python3==3.11.9,kivy
 
-# Экран (если игра вертикальная, замени landscape на portrait)
+# Экран (альбомная ориентация)
 orientation = landscape
 fullscreen = 1
 
@@ -28,6 +29,6 @@ android.ndk = 25b
 android.accept_sdk_license = True
 
 [buildozer]
-# Настройки сборщика
-log_level = 2
+# Убираем мусор из логов, чтобы видеть ошибку сразу, если она будет
+log_level = 1
 warn_on_root = 1
