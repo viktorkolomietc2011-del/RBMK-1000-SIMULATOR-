@@ -13,20 +13,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y ccache git libffi-dev build-essential python3-dev libssl-dev libsqlite3-dev zlib1g-dev openjdk-17-jdk zip unzip
-        pip install --upgrade pip setuptools buildozer cython virtualenv
-
+    # Этот плагин автоматически принимает все лицензии SDK и настраивает среду
     - name: Build with Buildozer
-      run: |
-        yes | buildozer android debug
+      uses: ArtemSBulgakov/buildozer-action@v1
+      with:
+        command: buildozer android debug
+        buildozer_version: master
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
