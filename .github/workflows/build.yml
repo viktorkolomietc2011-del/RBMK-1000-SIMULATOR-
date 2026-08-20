@@ -7,32 +7,24 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
+    - name: Force Accept SDK License in Spec
+      # Эта команда принудительно находит строчку с лицензией в твоем buildozer.spec 
+      # и аппаратно включает её, даже если она была закомментирована.
+      run: sed -i 's/.*android.accept_sdk_license.*/android.accept_sdk_license = True/g' buildozer.spec
 
-    # Официальная и надежная установка Java от GitHub
-    - name: Set up Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+    - name: Fix permissions for Docker
+      # Даем капсуле Docker полные права на запись, чтобы она могла сохранить готовый APK
+      run: chmod -R 777 $GITHUB_WORKSPACE
 
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
-        pip install --upgrade pip setuptools cython virtualenv buildozer
-
-    - name: Build with Buildozer
-      run: buildozer android debug
+    - name: Build with Official Buildozer Docker
+      # Запускаем официальную сборку напрямую от команды Kivy в изолированном контейнере
+      run: docker run --rm -v ${{ github.workspace }}:/home/user/hostcwd kivy/buildozer:latest buildozer android debug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
