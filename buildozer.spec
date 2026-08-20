@@ -8,11 +8,14 @@ package.domain = org.simulator
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,wav
 
-# Версия и требования (ОБЯЗАТЕЛЬНО python 3.11.0)
-version = 1.0
-requirements = python3==3.11.0,kivy
+# Иконка приложения (точное имя твоего файла)
+icon.filename = Icon.png
 
-# Экран
+# Версия и требования (конфликт версий устранен)
+version = 1.0
+requirements = python3,kivy
+
+# Экран (если игра вертикальная, замени landscape на portrait)
 orientation = landscape
 fullscreen = 1
 
