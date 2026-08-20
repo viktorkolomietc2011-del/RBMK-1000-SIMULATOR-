@@ -12,9 +12,9 @@ source.include_exts = py,png,jpg,kv,atlas,wav
 # Иконка приложения
 icon.filename = Icon.png
 
-# Версия и требования (жестко фиксируем стабильный Python 3.11 для Android)
+# Версия и требования (исправлено: убрали точечную версию python)
 version = 1.0
-requirements = python3==3.11.9,kivy
+requirements = python3,kivy
 
 # Экран (альбомная ориентация)
 orientation = landscape
@@ -29,6 +29,6 @@ android.ndk = 25b
 android.accept_sdk_license = True
 
 [buildozer]
-# Убираем мусор из логов, чтобы видеть ошибку сразу, если она будет
+# Чистый лог для быстрой отладки
 log_level = 1
 warn_on_root = 1
