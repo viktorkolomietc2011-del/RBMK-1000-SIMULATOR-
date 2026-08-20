@@ -13,13 +13,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set permissions
-      run: chmod -R 777 .
+    - name: Set permissions and clean cache
+      run: |
+        chmod -R 777 .
+        rm -rf .buildozer bin
 
     - name: Build with Docker
-      # Передаем параметры сборки напрямую, без дублирования слова buildozer
       run: |
-        docker run --rm -v ${{ github.workspace }}:/home/user/hostcwd kivy/buildozer:latest android debug
+        docker run --rm -v ${{ github.workspace }}:/home/user/hostcwd kivy/buildozer:latest buildozer android debug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
