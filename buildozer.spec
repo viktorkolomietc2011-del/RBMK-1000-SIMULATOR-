@@ -16,11 +16,11 @@ fullscreen = 1
 
 android.archs = arm64-v8a, armeabi-v7a
 android.allow_backup = True
-android.api = 34
+android.api = 33
 android.minapi = 21
-android.ndk = 28c
+android.ndk = 27.3.13750724
 android.accept_sdk_license = True
 
 [buildozer]
-log_level = 1
+log_level = 2
 warn_on_root = 1
