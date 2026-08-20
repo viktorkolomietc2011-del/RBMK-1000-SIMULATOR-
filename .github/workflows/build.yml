@@ -17,12 +17,9 @@ jobs:
       run: chmod -R 777 .
 
     - name: Build with Docker
-      # Мы используем прямой вызов команд, чтобы контейнер не путался
+      # Запускаем контейнер в чистом виде без переключения пользователей
       run: |
-        docker run --rm -v $(pwd):/home/user/hostcwd \
-        -u $(id -u):$(id -g) \
-        kivy/buildozer:latest \
-        bash -c "buildozer android debug"
+        docker run --rm -v $(pwd):/home/user/hostcwd kivy/buildozer:latest buildozer android debug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
